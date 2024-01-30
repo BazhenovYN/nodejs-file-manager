@@ -3,5 +3,10 @@ export function getUserName() {
 }
 
 export function getCommand(line) {
-  return { name: line.trim(), arguments: [] };
+  const pattern = /(?<command>^"[^"]*"|\S*) *(?<params>.*)?/;
+  const match = line.match(pattern);
+  return {
+    name: match.groups.command,
+    arguments: match.groups.params ? [...match.groups.params.split(" ")] : null,
+  };
 }
