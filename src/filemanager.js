@@ -1,11 +1,11 @@
 import readline from "node:readline";
 
 import { runCommand } from "./cli.js";
-import { getHomeDirectory } from "./location.js";
+import { Location } from "./location.js";
 import { getUserName } from "./utils.js";
 
 export function startFileManager() {
-  const location = getHomeDirectory();
+  const location = new Location();
   const username = getUserName();
   const rl = readline.createInterface({
     input: process.stdin,

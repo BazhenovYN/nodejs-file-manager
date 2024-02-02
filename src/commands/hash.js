@@ -9,7 +9,7 @@ export async function showFileHash(location, file) {
     throw new Error(errors.noParams);
   }
 
-  const filename = path.join(location.get(), file);
+  const filename = path.join(location.current, file);
 
   try {
     const hash = createHash("sha256");

@@ -1,29 +1,35 @@
+import { access } from "node:fs/promises";
+import path from "node:path";
 import { homedir } from "node:os";
 
+import { errors } from "./errors.js";
+
 export class Location {
-  #path;
+  #current = homedir();
 
-  constructor(path) {
-    if (path) {
-      this.#path = path;
-    } else {
-      this.#path = import.meta.dirname;
-    }
+  get current() {
+    return this.#current;
   }
 
-  get() {
-    return this.#path;
-  }
-
-  set(path) {
-    this.#path = path;
+  set current(newPath) {
+    this.#current = newPath;
   }
 
   log() {
-    console.log(`\nYou are currently in ${this.#path}`);
+    console.log(`\nYou are currently in ${this.#current}`);
   }
-}
 
-export function getHomeDirectory() {
-  return new Location(homedir());
+  up() {
+    this.#current = path.resolve(this.#current, "..");
+  }
+
+  async cd(newPath) {
+    const dir = path.resolve(this.#current, newPath);
+    try {
+      await access(dir);
+      this.#current = dir;
+    } catch (error) {
+      throw new Error(errors.failed);
+    }
+  }
 }
