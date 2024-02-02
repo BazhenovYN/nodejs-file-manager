@@ -1,3 +1,4 @@
+import { compress, decompress } from "./commands/brotli.js";
 import { cat } from "./commands/files.js";
 import { showFileHash } from "./commands/hash.js";
 import { cd, up } from "./commands/navigation.js";
@@ -25,6 +26,12 @@ export async function runCommand(location, line) {
       break;
     case "hash":
       await showFileHash(location, command.arguments[0]);
+      break;
+    case "compress":
+      await compress(location, command.arguments[0], command.arguments[1]);
+      break;
+    case "decompress":
+      await decompress(location, command.arguments[0], command.arguments[1]);
       break;
     default:
       throw new Error(errors.unknownCommand);
