@@ -1,4 +1,5 @@
 import { showFileHash } from "./commands/hash.js";
+import { showOsInfo } from "./commands/os.js";
 import { getCommand } from "./utils.js";
 
 export async function runCommand(location, line) {
@@ -11,11 +12,13 @@ export async function runCommand(location, line) {
     case "ls":
       console.log("ls command...");
       break;
+    case "os":
+      showOsInfo(command.arguments[0]);
+      break;
     case "hash":
       await showFileHash(location, command.arguments[0]);
       break;
     default:
-      console.log(`'${line.trim()}': command not found...`);
-      break;
+      throw new Error(errors.unknownCommand);
   }
 }

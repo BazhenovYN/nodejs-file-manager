@@ -7,6 +7,6 @@ export function getCommand(line) {
   const match = line.match(pattern);
   return {
     name: match.groups.command,
-    arguments: match.groups.params ? [...match.groups.params.split(" ")] : null,
+    arguments: match.groups.params ? [...match.groups.params.split(" ")] : [],
   };
 }

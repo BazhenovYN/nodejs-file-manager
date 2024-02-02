@@ -21,7 +21,13 @@ export function startFileManager() {
     if (input === ".exit") {
       rl.close();
     }
-    await runCommand(location, input);
+    try {
+      await runCommand(location, input);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      }
+    }
     location.log();
     rl.prompt();
   }).on("close", () => {

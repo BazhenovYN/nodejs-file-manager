@@ -1,4 +1,6 @@
 export const errors = {
-  nofile: "Invalid input: Filename not specified",
-  fileNotFound: "Invalid input: File not found",
+  failed: "Operation failed",
+  unknownCommand: "Invalid input: Unknown command",
+  unknownParams: "Invalid input: Unknown parametr",
+  noParams: "Invalid input: Command parameters not set",
 };
