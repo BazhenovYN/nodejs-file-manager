@@ -1,4 +1,4 @@
-import { readFile, rm, writeFile } from "node:fs/promises";
+import { readFile, rename, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 import { errors } from "../errors.js";
@@ -36,6 +36,21 @@ export async function remove(location, file) {
 
   try {
     await rm(filename);
+  } catch (error) {
+    throw new Error(errors.failed);
+  }
+}
+
+export async function rn(location, inputFile, outputFile) {
+  if (!inputFile || !outputFile) {
+    throw new Error(errors.noParams);
+  }
+
+  const inputFilePath = path.resolve(location.current, inputFile);
+  const outputFilePath = path.resolve(location.current, outputFile);
+
+  try {
+    await rename(inputFilePath, outputFilePath);
   } catch (error) {
     throw new Error(errors.failed);
   }
