@@ -1,5 +1,7 @@
+import { createReadStream, createWriteStream } from "node:fs";
 import { readFile, rename, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { pipeline } from "node:stream/promises";
 
 import { errors } from "../errors.js";
 
@@ -54,4 +56,18 @@ export async function rn(location, inputFile, outputFile) {
   } catch (error) {
     throw new Error(errors.failed);
   }
+}
+
+export async function copy(location, inputFile, outputFile) {
+  if (!inputFile || !outputFile) {
+    throw new Error(errors.noParams);
+  }
+
+  const inputFilePath = path.resolve(location.current, inputFile);
+  const outputFilePath = path.resolve(location.current, outputFile);
+
+  const readStream = createReadStream(inputFilePath);
+  const writeStream = createWriteStream(outputFilePath);
+
+  await pipeline(readStream, writeStream);
 }

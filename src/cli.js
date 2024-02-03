@@ -1,5 +1,5 @@
 import { compress, decompress } from "./commands/brotli.js";
-import { add, cat, remove, rn } from "./commands/files.js";
+import { add, cat, copy, remove, rn } from "./commands/files.js";
 import { showFileHash } from "./commands/hash.js";
 import { cd, ls, up } from "./commands/navigation.js";
 import { showOsInfo } from "./commands/os.js";
@@ -28,6 +28,9 @@ export async function runCommand(location, line) {
       break;
     case "rn":
       await rn(location, command.arguments[0], command.arguments[1]);
+      break;
+    case "cp":
+      await copy(location, command.arguments[0], command.arguments[1]);
       break;
     case "rm":
       await remove(location, command.arguments[0]);
