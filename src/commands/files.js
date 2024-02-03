@@ -1,5 +1,5 @@
 import { createReadStream, createWriteStream } from "node:fs";
-import { readFile, rename, rm, writeFile } from "node:fs/promises";
+import { rename, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { pipeline } from "node:stream/promises";
 
@@ -11,8 +11,21 @@ export async function cat(location, file) {
   }
 
   const filePath = path.resolve(location.current, file);
-  const contents = await readFile(filePath, { encoding: "utf8" });
-  console.log(contents);
+  const readStream = createReadStream(filePath, { encoding: "utf8" });
+
+  return new Promise((resolve, reject) => {
+    readStream.on("data", (chunk) => {
+      console.log(chunk);
+    });
+
+    readStream.on("end", () => {
+      resolve();
+    });
+
+    readStream.on("error", (error) => {
+      reject(error);
+    });
+  });
 }
 
 export async function add(location, file) {
