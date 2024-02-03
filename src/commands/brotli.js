@@ -3,7 +3,13 @@ import { createBrotliCompress, createBrotliDecompress } from "node:zlib";
 import { pipeline } from "node:stream/promises";
 import path from "node:path";
 
+import { errors } from "../errors.js";
+
 export async function compress(location, inputFile, outputFile) {
+  if (!inputFile || !outputFile) {
+    throw new Error(errors.noParams);
+  }
+
   const inputFilePath = path.resolve(location.current, inputFile);
   const outputFilePath = path.resolve(location.current, outputFile);
 
@@ -15,6 +21,10 @@ export async function compress(location, inputFile, outputFile) {
 }
 
 export async function decompress(location, inputFile, outputFile) {
+  if (!inputFile || !outputFile) {
+    throw new Error(errors.noParams);
+  }
+
   const inputFilePath = path.resolve(location.current, inputFile);
   const outputFilePath = path.resolve(location.current, outputFile);
 
