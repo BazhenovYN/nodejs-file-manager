@@ -1,7 +1,7 @@
 import { compress, decompress } from "./commands/brotli.js";
 import { cat } from "./commands/files.js";
 import { showFileHash } from "./commands/hash.js";
-import { cd, up } from "./commands/navigation.js";
+import { cd, ls, up } from "./commands/navigation.js";
 import { showOsInfo } from "./commands/os.js";
 import { getCommand } from "./utils.js";
 
@@ -16,7 +16,7 @@ export async function runCommand(location, line) {
       await cd(location, command.arguments[0]);
       break;
     case "ls":
-      console.log("ls command...");
+      await ls(location);
       break;
     case "cat":
       await cat(location, command.arguments[0]);
