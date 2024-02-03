@@ -1,5 +1,11 @@
 export function getUserName() {
-  return "User";
+  const username = process.argv
+    .slice(2)
+    .find((arg) => arg.startsWith("--username="));
+  if (!username) {
+    return "User";
+  }
+  return username.split("=")[1];
 }
 
 export function getCommand(line) {
