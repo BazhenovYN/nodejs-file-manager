@@ -3,9 +3,8 @@ import { add, cat, copy, move, remove, rn } from "./commands/files.js";
 import { showFileHash } from "./commands/hash.js";
 import { cd, ls, up } from "./commands/navigation.js";
 import { showOsInfo } from "./commands/os.js";
-import { getCommand } from "./utils.js";
-
 import { errors } from "./errors.js";
+import { getCommand } from "./utils.js";
 
 const COMMAND = {
   UP: "up",

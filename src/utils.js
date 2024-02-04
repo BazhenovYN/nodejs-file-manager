@@ -2,7 +2,7 @@ import { resolve } from "node:path";
 import { errors } from "./errors.js";
 
 const DEFAULT_USER_NAME = "User";
-const USER_NAME_PARAM = "--username=";
+const USER_NAME_PARAM = "--username";
 
 export function getUserName() {
   const username = process.argv
