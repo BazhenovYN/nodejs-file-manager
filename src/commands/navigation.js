@@ -1,15 +1,10 @@
 import { readdir } from "node:fs/promises";
-import { errors } from "../errors.js";
 
 export function up(location) {
   location.up();
 }
 
 export async function cd(location, newPath) {
-  if (!newPath) {
-    throw new Error(errors.noParams);
-  }
-
   await location.cd(newPath);
 }
 

@@ -3,6 +3,7 @@ import path from "node:path";
 import { homedir } from "node:os";
 
 import { errors } from "./errors.js";
+import { resolvePaths } from "./utils.js";
 
 export class Location {
   #current = homedir();
@@ -24,10 +25,11 @@ export class Location {
   }
 
   async cd(newPath) {
-    const dir = path.resolve(this.#current, newPath);
+    const [folderPath] = resolvePaths(this, newPath);
+
     try {
-      await access(dir);
-      this.#current = dir;
+      await access(folderPath);
+      this.#current = folderPath;
     } catch (error) {
       throw new Error(errors.failed);
     }

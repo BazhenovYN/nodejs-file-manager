@@ -7,15 +7,20 @@ import { getUserName } from "./utils.js";
 export function startFileManager() {
   const location = new Location();
   const username = getUserName();
+
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
-    prompt: "$ ",
+    prompt: "> ",
   });
 
+  const prompt = () => {
+    location.log();
+    rl.prompt();
+  };
+
   console.log(`Welcome to the File Manager, ${username}!`);
-  location.log();
-  rl.prompt();
+  prompt();
 
   rl.on("line", async (input) => {
     if (input === ".exit") {
@@ -26,10 +31,11 @@ export function startFileManager() {
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
+      } else {
+        console.error(error);
       }
     }
-    location.log();
-    rl.prompt();
+    prompt();
   }).on("close", () => {
     console.log(`\nThank you for using File Manager, ${username}, goodbye!`);
     process.exit(0);

@@ -1,3 +1,6 @@
+import { resolve } from "node:path";
+import { errors } from "./errors.js";
+
 export function getUserName() {
   const username = process.argv
     .slice(2)
@@ -15,4 +18,13 @@ export function getCommand(line) {
     name: match.groups.command,
     arguments: match.groups.params ? [...match.groups.params.split(" ")] : [],
   };
+}
+
+export function resolvePaths(location, ...paths) {
+  return paths.map((path) => {
+    if (!path) {
+      throw new Error(errors.noParams);
+    }
+    return resolve(location.current, path);
+  });
 }

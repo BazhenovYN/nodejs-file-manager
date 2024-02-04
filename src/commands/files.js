@@ -4,13 +4,11 @@ import path from "node:path";
 import { pipeline } from "node:stream/promises";
 
 import { errors } from "../errors.js";
+import { resolvePaths } from "../utils.js";
 
 export async function cat(location, file) {
-  if (!file) {
-    throw new Error(errors.noParams);
-  }
+  const [filePath] = resolvePaths(location, file);
 
-  const filePath = path.resolve(location.current, file);
   const readStream = createReadStream(filePath, { encoding: "utf8" });
 
   return new Promise((resolve, reject) => {
@@ -29,40 +27,31 @@ export async function cat(location, file) {
 }
 
 export async function add(location, file) {
-  if (!file) {
-    throw new Error(errors.noParams);
-  }
-
-  const filename = path.resolve(location.current, file);
+  const [filePath] = resolvePaths(location, file);
 
   try {
-    await writeFile(filename, "", { flag: "wx" });
+    await writeFile(filePath, "", { flag: "wx" });
   } catch (error) {
     throw new Error(errors.failed);
   }
 }
 
 export async function remove(location, file) {
-  if (!file) {
-    throw new Error(errors.noParams);
-  }
-
-  const filename = path.resolve(location.current, file);
+  const [filePath] = resolvePaths(location, file);
 
   try {
-    await rm(filename);
+    await rm(filePath);
   } catch (error) {
     throw new Error(errors.failed);
   }
 }
 
 export async function rn(location, inputFile, outputFile) {
-  if (!inputFile || !outputFile) {
-    throw new Error(errors.noParams);
-  }
-
-  const inputFilePath = path.resolve(location.current, inputFile);
-  const outputFilePath = path.resolve(location.current, outputFile);
+  const [inputFilePath, outputFilePath] = resolvePaths(
+    location,
+    inputFile,
+    outputFile
+  );
 
   try {
     await rename(inputFilePath, outputFilePath);
@@ -72,12 +61,11 @@ export async function rn(location, inputFile, outputFile) {
 }
 
 export async function copy(location, inputFile, outputFile) {
-  if (!inputFile || !outputFile) {
-    throw new Error(errors.noParams);
-  }
-
-  const inputFilePath = path.resolve(location.current, inputFile);
-  const outputFilePath = path.resolve(location.current, outputFile);
+  const [inputFilePath, outputFilePath] = resolvePaths(
+    location,
+    inputFile,
+    outputFile
+  );
 
   const readStream = createReadStream(inputFilePath);
   const writeStream = createWriteStream(outputFilePath);
@@ -90,12 +78,13 @@ export async function copy(location, inputFile, outputFile) {
 }
 
 export async function move(location, file, folder) {
-  if (!file || !folder) {
-    throw new Error(errors.noParams);
-  }
+  const [inputFilePath, outputFolderPath] = resolvePaths(
+    location,
+    file,
+    folder
+  );
 
-  const inputFilePath = path.resolve(location.current, file);
-  const outputFilePath = path.resolve(location.current, folder, file);
+  const outputFilePath = path.resolve(outputFolderPath, file);
 
   const readStream = createReadStream(inputFilePath);
   const writeStream = createWriteStream(outputFilePath);
