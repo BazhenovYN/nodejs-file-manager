@@ -31,40 +31,40 @@ export async function runCommand(location, line) {
       up(location);
       break;
     case COMMAND.CD:
-      await cd(location, command.arguments[0]);
+      await cd(location, ...command.arguments);
       break;
     case COMMAND.LIST:
       await ls(location);
       break;
     case COMMAND.CAT:
-      await cat(location, command.arguments[0]);
+      await cat(location, ...command.arguments);
       break;
     case COMMAND.ADD:
-      await add(location, command.arguments[0]);
+      await add(location, ...command.arguments);
       break;
     case COMMAND.RENAME:
-      await rn(location, command.arguments[0], command.arguments[1]);
+      await rn(location, ...command.arguments);
       break;
     case COMMAND.COPY:
-      await copy(location, command.arguments[0], command.arguments[1]);
+      await copy(location, ...command.arguments);
       break;
     case COMMAND.MOVE:
-      await move(location, command.arguments[0], command.arguments[1]);
+      await move(location, ...command.arguments);
       break;
     case COMMAND.REMOVE:
-      await remove(location, command.arguments[0]);
+      await remove(location, ...command.arguments);
       break;
     case COMMAND.OS:
-      showOsInfo(command.arguments[0]);
+      showOsInfo(...command.arguments);
       break;
     case COMMAND.HASH:
-      await showFileHash(location, command.arguments[0]);
+      await showFileHash(location, ...command.arguments);
       break;
     case COMMAND.COMPRESS:
-      await compress(location, command.arguments[0], command.arguments[1]);
+      await compress(location, ...command.arguments);
       break;
     case COMMAND.DECOMPRESS:
-      await decompress(location, command.arguments[0], command.arguments[1]);
+      await decompress(location, ...command.arguments);
       break;
     default:
       throw new Error(errors.unknownCommand);
