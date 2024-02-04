@@ -82,7 +82,11 @@ export async function copy(location, inputFile, outputFile) {
   const readStream = createReadStream(inputFilePath);
   const writeStream = createWriteStream(outputFilePath);
 
-  await pipeline(readStream, writeStream);
+  try {
+    await pipeline(readStream, writeStream);
+  } catch (error) {
+    throw new Error(errors.failed);
+  }
 }
 
 export async function move(location, file, folder) {
