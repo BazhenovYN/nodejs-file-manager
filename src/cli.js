@@ -7,47 +7,63 @@ import { getCommand } from "./utils.js";
 
 import { errors } from "./errors.js";
 
+const COMMAND = {
+  UP: "up",
+  CD: "cd",
+  LIST: "ls",
+  CAT: "cat",
+  ADD: "add",
+  RENAME: "rn",
+  COPY: "cp",
+  MOVE: "mv",
+  REMOVE: "rm",
+  OS: "os",
+  HASH: "hash",
+  COMPRESS: "compress",
+  DECOMPRESS: "decompress",
+};
+
 export async function runCommand(location, line) {
   const command = getCommand(line);
 
   switch (command.name) {
-    case "up":
+    case COMMAND.UP:
       up(location);
       break;
-    case "cd":
+    case COMMAND.CD:
       await cd(location, command.arguments[0]);
       break;
-    case "ls":
+    case COMMAND.LIST:
       await ls(location);
       break;
-    case "cat":
+    case COMMAND.CAT:
       await cat(location, command.arguments[0]);
       break;
-    case "add":
+    case COMMAND.ADD:
       await add(location, command.arguments[0]);
       break;
-    case "rn":
+    case COMMAND.RENAME:
       await rn(location, command.arguments[0], command.arguments[1]);
       break;
-    case "cp":
+    case COMMAND.COPY:
       await copy(location, command.arguments[0], command.arguments[1]);
       break;
-    case "mv":
+    case COMMAND.MOVE:
       await move(location, command.arguments[0], command.arguments[1]);
       break;
-    case "rm":
+    case COMMAND.REMOVE:
       await remove(location, command.arguments[0]);
       break;
-    case "os":
+    case COMMAND.OS:
       showOsInfo(command.arguments[0]);
       break;
-    case "hash":
+    case COMMAND.HASH:
       await showFileHash(location, command.arguments[0]);
       break;
-    case "compress":
+    case COMMAND.COMPRESS:
       await compress(location, command.arguments[0], command.arguments[1]);
       break;
-    case "decompress":
+    case COMMAND.DECOMPRESS:
       await decompress(location, command.arguments[0], command.arguments[1]);
       break;
     default:

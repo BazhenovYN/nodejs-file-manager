@@ -1,19 +1,27 @@
 import os from "node:os";
 import { errors } from "../errors.js";
 
+const OS = {
+  EOL: "--EOL",
+  HOMEDIR: "--homedir",
+  CPUS: "--cpus",
+  USERNAME: "--username",
+  ARCHITECTURE: "--architecture",
+};
+
 export function showOsInfo(param) {
   if (!param) {
     throw new Error(errors.noParams);
   }
 
   switch (param) {
-    case "--EOL":
+    case OS.EOL:
       console.log(JSON.stringify(os.EOL));
       break;
-    case "--homedir":
+    case OS.HOMEDIR:
       console.log(os.homedir());
       break;
-    case "--cpus": {
+    case OS.CPUS: {
       const cpuInfo = os.cpus().map((core) => ({
         model: core.model,
         speed: `${(core.speed / 1000).toFixed(1)} GHz`,
@@ -22,10 +30,10 @@ export function showOsInfo(param) {
       console.log(cpuInfo);
       break;
     }
-    case "--username":
+    case OS.USERNAME:
       console.log(os.userInfo().username);
       break;
-    case "--architecture":
+    case OS.ARCHITECTURE:
       console.log(os.arch());
       break;
     default:

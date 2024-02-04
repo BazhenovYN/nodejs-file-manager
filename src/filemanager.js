@@ -4,6 +4,8 @@ import { runCommand } from "./cli.js";
 import { Location } from "./location.js";
 import { getUserName } from "./utils.js";
 
+const EXIT_COMMAND = ".exit";
+
 export function startFileManager() {
   const location = new Location();
   const username = getUserName();
@@ -23,7 +25,7 @@ export function startFileManager() {
   prompt();
 
   rl.on("line", async (input) => {
-    if (input === ".exit") {
+    if (input.trim() === EXIT_COMMAND) {
       rl.close();
     }
     try {

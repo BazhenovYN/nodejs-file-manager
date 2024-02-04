@@ -1,5 +1,10 @@
 import { readdir } from "node:fs/promises";
 
+const TYPE = {
+  DIRECTORY: "directory",
+  FILE: "file",
+};
+
 export function up(location) {
   location.up();
 }
@@ -18,10 +23,10 @@ export async function ls(location) {
 
   const directories = list
     .filter((item) => item.isDirectory())
-    .map((item) => ({ name: item.name, type: "directory" }));
+    .map((item) => ({ name: item.name, type: TYPE.DIRECTORY }));
   const files = list
     .filter((item) => !item.isDirectory())
-    .map((item) => ({ name: item.name, type: "file" }));
+    .map((item) => ({ name: item.name, type: TYPE.FILE }));
 
   const results = [...directories, ...files];
 
