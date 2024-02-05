@@ -4,6 +4,8 @@ import { errors } from "./errors.js";
 const DEFAULT_USER_NAME = "User";
 const USER_NAME_PARAM = "--username";
 
+const normalizePath = (path) => path.replace(/^['"](.*)['"]$/, "$1");
+
 export function getUserName() {
   const username = process.argv
     .slice(2)
@@ -28,6 +30,6 @@ export function resolvePaths(location, ...paths) {
     if (!path) {
       throw new Error(errors.noParams);
     }
-    return resolve(location.current, path);
+    return resolve(location.current, normalizePath(path));
   });
 }
